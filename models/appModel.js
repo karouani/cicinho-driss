@@ -1,6 +1,5 @@
 const sql = require('./dbconnection');
-const util = require('util');
-const query = util.promisify(sql.query).bind(sql);
+const dbAsync = require('./databasesAsync');
 
 const ChatApplication = function() {};
 
@@ -108,8 +107,8 @@ ChatApplication.getAllusers = result => {
     });
 };
 
-ChatApplication.getAllusersAsync = async () => {
-    return await query("SELECT * FROM user");
+ChatApplication.getAllusersAsync = () => {
+    return dbAsync.query("SELECT * FROM user");
 };
 
 ChatApplication.adminUser = (result) => {
@@ -131,8 +130,8 @@ ChatApplication.adminUser = (result) => {
 };
 
 
-ChatApplication.adminUserAsync = async () => {
-    return await query(`SELECT * FROM user WHERE role = 'admin'`);
+ChatApplication.adminUserAsync = () => {
+    return dbAsync.query(`SELECT * FROM user WHERE role = 'admin'`);
 };
 
 ChatApplication.messageRead = (id, result) => {

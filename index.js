@@ -37,22 +37,23 @@ var io = require('socket.io')(server);
 const ChatApplication = require('./models/appModel');
 var users = [];
 var connections = [];
-var allUsers =  ChatApplication.getAllusersAsync();
-var admin = ChatApplication.adminUserAsync();
 
-io.on('connection', function(socket){
+var allUsers = ChatApplication.getAllusersAsync();
+var admin = ChatApplication.adminUserAsync()[0];
+
+io.on('connection', function(socket) {
     console.log('User Conncetion');
-    socket.on('connect user', function(user){
+    socket.on('connect user', function(user) {
         console.log("Connected user ");
         io.emit('connect user', user);
     });
-  
-    socket.on('on typing', function(typing){
+
+    socket.on('on typing', function(typing) {
         console.log("Typing.... ");
         io.emit('on typing', typing);
     });
-  
-    socket.on('chat message', function(msg){
+
+    socket.on('chat message', function(msg) {
         console.log("Message " + msg['message']);
         io.emit('chat message', msg);
     });
