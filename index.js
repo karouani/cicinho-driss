@@ -42,20 +42,41 @@ var allUsers = ChatApplication.getAllusersAsync();
 var admin = ChatApplication.adminUserAsync()[0];
 
 io.on('connection', function(socket) {
-    console.log('User Conncetion');
-    socket.on('connect user', function(user) {
-        console.log("Connected user ");
-        io.emit('connect user', user);
+    /* Set up a disconnect event*/
+    socket.on('disconnect', () => {
+        io.emit('user-exited', { user: socket.alias });
     });
 
-    socket.on('on typing', function(typing) {
-        console.log("Typing.... ");
-        io.emit('on typing', typing);
+    /**
+     * Listen for when a message has been sent from the Ionic app
+     */
+    socket.on('add-message', (message) => {
+        // Broadcast the message and return a JavaScript map of values
+        // for use within the Ionic app
+        io.emit('message', { message: message.message, sender: socket.user.name, tagline: socket.user.login, location: "", published: new Date() });
     });
 
-    socket.on('chat message', function(msg) {
-        console.log("Message " + msg['message']);
-        io.emit('chat message', msg);
+
+
+    /**
+     * Listen for when an image has been sent from the Ionic app
+     */
+    socket.on('add-image', (message) => {
+        io.emit('message', { image: message.image, sender: socket.user.name, tagline: socket.user.login, location: "", published: new Date() });
+    });
+
+
+
+    /**
+     * Allows the user to join the current chat session
+     */
+    socket.on('set-alias', (obj) => {
+        // Define socket object properties (which we can use with our other
+        // Socket.io event listener methods) and return a JavaScript map of
+        // values for use within the Ionic app
+        //{"id":1,"name":"Yassinos","login":"admin","password":"123456","date_create":"2019-11-14T21:24:40.000Z","role":"admin"}
+        socket.user = obj;
+        io.emit('alias-added', obj);
     });
 });
 /**

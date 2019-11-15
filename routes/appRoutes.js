@@ -13,7 +13,7 @@ module.exports = app => {
 
     app.put("/chat/updatemessage/:id", controller.update);
 
-    app.put("/chat", (req, res) => {
+    app.get("/chat", (req, res) => {
         res.json({ message: "Welcome to Chat Massage application." });
     });
 };
