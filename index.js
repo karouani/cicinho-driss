@@ -7,6 +7,9 @@
 var app = require('./server');
 var debug = require('debug')('express-mysql-rest:server');
 var http = require('http');
+require("dotenv").config();
+var Logger = require("./logger");
+var log = new Logger();
 
 /**
  * Get port from environment and store in Express.
@@ -66,10 +69,12 @@ function onError(error) {
     switch (error.code) {
         case 'EACCES':
             console.error(bind + ' requires elevated privileges');
+            log.error(bind + ' requires elevated privileges');
             process.exit(1);
             break;
         case 'EADDRINUSE':
             console.error(bind + ' is already in use');
+            log.error(bind + ' is already in use');
             process.exit(1);
             break;
         default:
@@ -87,4 +92,5 @@ function onListening() {
         'pipe ' + addr :
         'port ' + addr.port;
     debug('Listening on ' + bind);
+    log.info('Listening on ' + bind);
 }
