@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  div#notfound
+    div.notfound
+        div.notfound-404
+            h1= error.status
+            h2= message
+        div.stack
+          pre #{error.stack}

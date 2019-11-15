@@ -1,0 +1,33 @@
+{
+    "name": "chat",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha",
+        "start": "set DEBUG=* & node index.js",
+        "start:dev": "nodemon --watch .env --watch index.js --watch controllers --watch models --watch routes"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.4",
+        "cors": "^2.8.5",
+        "debug": "^4.1.1",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-rate-limit": "^5.0.0",
+        "helmet": "^3.21.2",
+        "http": "0.0.0",
+        "http-errors": "^1.7.3",
+        "jade": "^1.11.0",
+        "morgan": "^1.9.1",
+        "mysql": "^2.17.1",
+        "socket.io": "^2.3.0",
+        "sync-mysql": "^3.0.1"
+    },
+    "devDependencies": {
+        "nodemon": "^1.19.4"
+    }
+}
