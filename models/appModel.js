@@ -1,4 +1,6 @@
 const sql = require('./dbconnection');
+const util = require('util');
+const query = util.promisify(sql.query).bind(sql);
 
 const ChatApplication = function() {};
 
@@ -106,6 +108,10 @@ ChatApplication.getAllusers = result => {
     });
 };
 
+ChatApplication.getAllusersAsync = async () => {
+    return await query("SELECT * FROM user");
+};
+
 ChatApplication.adminUser = (result) => {
     sql.query(`SELECT * FROM user WHERE role = 'admin'`, (err, res) => {
         if (err) {
@@ -122,6 +128,11 @@ ChatApplication.adminUser = (result) => {
 
         result({ kind: "not_found" }, null);
     });
+};
+
+
+ChatApplication.adminUserAsync = async () => {
+    return await query(`SELECT * FROM user WHERE role = 'admin'`);
 };
 
 ChatApplication.messageRead = (id, result) => {
